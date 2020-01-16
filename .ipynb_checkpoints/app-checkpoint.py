@@ -99,7 +99,7 @@ paper = st.sidebar.selectbox("Paper", docs.docId.values)
 
 doc_main = nlp(docs[docs['docId']==paper]['content'].values[0])
 
-text = st.text_area("Text to analyze", doc_main)
+#text = st.text_area("Text to analyze", doc_main)
 
 attrs = ["text", "label_", "start", "end", "start_char", "end_char"]
 dfs = []
