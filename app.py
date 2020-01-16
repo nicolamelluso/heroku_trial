@@ -81,8 +81,8 @@ model_load_state = st.info(f"Loading model '{spacy_model}'...")
 nlp = load_model(spacy_model)
 model_load_state.empty()
 
-text = st.text_area("Text to analyze", DEFAULT_TEXT)
-doc = process_text(spacy_model, text)
+#text = st.text_area("Text to analyze", DEFAULT_TEXT)
+#doc = process_text(spacy_model, text)
 
 
 st.header("Entities")
@@ -90,14 +90,16 @@ st.sidebar.header("Named Entities")
 #label_set = nlp.get_pipe("ner").labels
 label_set = ['DEVICE','USER','TOOL','GRIPPER','BODY','OPERATION']
 labels = st.sidebar.multiselect("Entity labels", label_set, label_set)
-html = displacy.render(doc, style="ent", options={"ents": labels,"colors": ner_displacy_palette})
+#html = displacy.render(doc, style="ent", options={"ents": labels,"colors": ner_displacy_palette})
 # Newlines seem to mess with the rendering
 #html = html.replace("\n", " ")
-st.write(HTML_WRAPPER.format(html), unsafe_allow_html=True)
+#st.write(HTML_WRAPPER.format(html), unsafe_allow_html=True)
 
 paper = st.sidebar.selectbox("Paper", docs.docId.values)
 
 doc_main = nlp(docs[docs['docId']==paper]['content'].values[0])
+
+text = st.text_area("Text to analyze", doc_main)
 
 attrs = ["text", "label_", "start", "end", "start_char", "end_char"]
 dfs = []
@@ -106,6 +108,8 @@ for sent in doc_main.sents:
     doc = process_text(spacy_model, sent.text)
     
     if any(elem in ents for elem in [ent.label_ for ent in doc.ents]) & ('\n' not in doc.text):
+        
+        
         html = displacy.render(doc, style="ent", options={"ents": labels,"colors": ner_displacy_palette})
         st.write(HTML_WRAPPER.format(html), unsafe_allow_html=True)
         
