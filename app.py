@@ -57,12 +57,12 @@ SECOND_TEXT = "Micro- and nano-technologies are, in theory, very attractive. The
 HTML_WRAPPER = """<div style="overflow-x: auto; border: 1px solid #e6e9ef; border-radius: 0.25rem; padding: 0.5rem; margin-bottom: 0.5rem">{}</div>"""
 
 
-@st.cache(ignore_hash=True)
+@st.cache(allow_output_mutation=True)
 def load_model(name):
     return spacy.load(name)
 
 
-@st.cache(ignore_hash=True)
+@st.cache(allow_output_mutation=True)
 def process_text(model_name, text):
     nlp = load_model(model_name)
     return nlp(text)
